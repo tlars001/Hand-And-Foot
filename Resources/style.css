@@ -1,0 +1,64 @@
+table {
+    margin-left: auto;
+    margin-right: auto;
+    font-size: 10vw;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+.numInput {
+    text-align: center;
+}
+
+.mainButtonsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 25%;
+}
+
+.mainButton {
+    text-align: center;
+    font-size: 12vw;
+}
+
+.teamButtonContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 20%;
+}
+
+.teamButton {
+    text-align: center;
+    font-size: 12vw;
+}
+
+.titleHeader {
+    text-align: center;
+    font-size: 15vw;
+    height: 7%;
+}
+
+#inputHeader {
+    text-align: center;
+    font-size: 10vw;
+}
+
+#mainContainer {
+    height: 90vh;
+}
+
+#teamsHeader {
+    text-align: center;
+    font-size: 12vw;
+    height: 7%;
+}
+
+#winningTeam {
+    font-size: 10vw;
+    text-align: center;
+}

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hand & Foot</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="A program to help play Hand & Foot">
+		<meta name="keywords" content="Hand & Foot">
+		<meta name="author" content="Trevor Larson">
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+		<link rel="icon" href="Hand&Foot.PNG">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body onload="getScores()">
+        <div id="mainContainer">
+            <h1 id="calcScoresHeader" class="titleHeader">Team 1</h1>
+            <h2 id="inputHeader"></h2>
+            <div id="checkBoxContainer" class="numInput">
+                Did this team go out? <input type="checkbox" id="winCheckBox" class="checkBox">
+            </div>
+            <div class="numInput">
+                <p>Points in books:</p>
+            </div>
+            <div class="numInput">
+                <input type="number" id="bookPoints" class="numInput">
+            </div>
+            <div class="numInput">
+                <p>Points in cards: </p>
+            </div> 
+            <div class="numInput">
+                <input type="number" id="cardPoints" class="numInput">
+            </div>
+            <div class="numInput">
+                <p>Points against your team: </p>
+            </div>
+            <div class="numInput">
+                <input type="number" id="negativePoints" class="numInput">
+            </div>
+            <div class="teamButtonContainer">
+                <button id="submit" class="teamButton" onclick="submit()">Submit</button>            
+            </div>
+        </div>
+
+	  	<!-- The main file for the program -->
+	  	<script src="../JavaScript/main.js"></script>
+	</body>
+</html>

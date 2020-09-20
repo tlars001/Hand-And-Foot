@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hand & Foot</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="A program to help play Hand & Foot">
+		<meta name="keywords" content="Hand & Foot">
+		<meta name="author" content="Trevor Larson">
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+		<link rel="icon" href="Hand&Foot.PNG">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body onload="displayScores()">
+		<h1 id="scoresHeader" class="titleHeader"></h1>
+		
+		<table id="scoreTable">
+			<tr>
+				<th>Team</th>
+				<th>Score</th>
+				<th>Total</th>
+			</tr>
+		</table>
+
+		<h3 id="winningTeam"></h3>
+
+		<div class="teamButtonContainer">
+			<button id="scoreButton" class="teamButton" onclick="checkRound()">Next Round</button>            
+		</div>
+		
+	  	<!-- The main file for the program -->
+	  	<script src="../JavaScript/main.js"></script>
+	</body>
+</html>
