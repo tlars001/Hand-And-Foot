@@ -8,7 +8,7 @@ var count = 0;
 //=====================================================================================================================
 function startGame()
 {
-    //localStorage.clear();
+    localStorage.clear();
     localStorage.setItem("firstRun", "true");
     location.href = "./Resources/teams.html";
 }
@@ -75,24 +75,37 @@ function supports_html5_storage()
 //=====================================================================================================================
 function getScores() 
 {
+    if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD)
+    {
+        round = localStorage.getItem("round");
+        round--;
+        localStorage.setItem("round", round);
+    }
+
     firstRun = localStorage.getItem("firstRun");
     numTeams = localStorage.getItem("numTeams");
     count = 1;
 
-    if (firstRun == "true")
+    if (firstRun === "true")
     {
         round = 1;
         localStorage.setItem("firstRun", "false");
 
         for (var i = 1; i <= numTeams; i++)
         {
-            localStorage.setItem(("totalPoints" + i), "0");
+            localStorage.setItem(("totalPoints" + i) + round, "0");
         }
 
     }
     else
     {
         round = localStorage.getItem("round");
+
+        if (round < 1)
+        {
+            round = 1;
+            localStorage.setItem("round", round);
+        }
     }
 
     document.getElementById("inputHeader").innerHTML = ("Round " + round);
@@ -119,21 +132,26 @@ function submit()
         document.getElementById("checkBoxContainer").hidden = true;
     }
 
-    var teamPoints = bookPoints + cardPoints - negativePoints;
+    var teamPointsName = ("teamPoints" + count) + round;
+    var teamPoints = (bookPoints + cardPoints) - negativePoints;
 
-    var tempNameTotal = ("totalPoints" + count);
-    var totalPoints = teamPoints + parseInt(localStorage.getItem(tempNameTotal));
+    var teamPointsTotalName = ("totalPoints" + count) + round;
+    var totalPoints = teamPoints;
 
-    var tempName = "teamPoints" + count;
+    if (round > 1)
+    {
+        var lastTotal = ("totalPoints" + count) + (round - 1);
+        totalPoints += parseInt(localStorage.getItem(lastTotal));
+    }
 
-    var tempName2 = "Team " + (count + 1);
+    var teamName = "Team " + (count + 1);
 
-    localStorage.setItem(tempName, teamPoints);
-    localStorage.setItem(tempNameTotal, totalPoints);
+    localStorage.setItem(teamPointsName, teamPoints);
+    localStorage.setItem(teamPointsTotalName, totalPoints);
 
     if (count < numTeams)
     {
-        document.getElementById("calcScoresHeader").innerHTML = tempName2;
+        document.getElementById("calcScoresHeader").innerHTML = teamName;
         document.getElementById("bookPoints").value = "";
         document.getElementById("cardPoints").value = "";
         document.getElementById("negativePoints").value = "";
@@ -165,52 +183,69 @@ function displayScores()
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
         cell1.innerHTML = ("Team " + i + ":");
-        cell2.innerHTML = localStorage.getItem("teamPoints" + i);
-        cell3.innerHTML = localStorage.getItem("totalPoints" + i);
+
+        var teamPointsName = ("teamPoints" + i) + (round - 1);
+        var totalPointsName = ("totalPoints" + i) + (round - 1);
+
+        cell2.innerHTML = localStorage.getItem(teamPointsName);
+        cell3.innerHTML = localStorage.getItem(totalPointsName);
     }
 
     sortTable();
 
-    if (round == "4")
+    if (round > "3")
     {
         document.getElementById("scoreButton").innerHTML = "Main Menu";
         var temp = table.rows[1].cells[0].innerHTML;
         var winner = temp.replace(/:$/g, "");
 
-        document.getElementById("winningTeam").innerHTML = winner + " wins!";
+        if (checkForTie(table))
+        {
+            document.getElementById("winningTeam").innerHTML = "It's a tie!";
+        }
+        else
+        {
+            document.getElementById("winningTeam").innerHTML = winner + " wins!";
+        }   
     }
 }
 
 //=====================================================================================================================
-function sortTable() {
+function sortTable()
+{
     var table, rows, switching, i, x, y, shouldSwitch;
     table = document.getElementById("scoreTable");
     switching = true;
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-      //start by saying: no switching is done:
+
+    // Make a loop that will continue until no switching has been done:
+    while (switching)
+    {
+      // Start by saying: no switching is done:
       switching = false;
       rows = table.rows;
-      /*Loop through all table rows (except the
-      first, which contains table headers):*/
-      for (i = 1; i < (rows.length - 1); i++) {
-        //start by saying there should be no switching:
+
+      // Loop through all table rows (except thefirst, which contains table headers):
+      for (i = 1; i < (rows.length - 1); i++)
+      {
+        // Start by saying there should be no switching:
         shouldSwitch = false;
-        /*Get the two elements you want to compare,
-        one from current row and one from the next:*/
+
+        // Get the two elements you want to compare, one from current row and one from the next:
         x = rows[i].getElementsByTagName("TD")[2];
         y = rows[i + 1].getElementsByTagName("TD")[2];
+
         //check if the two rows should switch place:
-        if (parseInt(x.innerHTML) < parseInt(y.innerHTML)) {
-          //if so, mark as a switch and break the loop:
+        if (parseInt(x.innerHTML) < parseInt(y.innerHTML))
+        {
+          // if so, mark as a switch and break the loop:
           shouldSwitch = true;
           break;
         }
       }
-      if (shouldSwitch) {
-        /*If a switch has been marked, make the switch
-        and mark that a switch has been done:*/
+
+      if (shouldSwitch)
+      {
+        // If a switch has been marked, make the switch and mark that a switch has been done:
         rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
         switching = true;
       }
@@ -223,7 +258,7 @@ function checkRound()
     round = localStorage.getItem("round");
 
     // Check if all three rounds have been completed
-    if (round == "4")
+    if (round > "3")
     {
         location.href = "../index.html";
     }
@@ -231,4 +266,18 @@ function checkRound()
     {
         calculateScores();
     }
+}
+
+//=====================================================================================================================
+function checkForTie(table)
+{
+    var leadTeamScore = table.rows[1].cells[2].innerHTML;
+    var secondTeamScore = table.rows[2].cells[2].innerHTML;
+
+    if (leadTeamScore === secondTeamScore)
+    {
+        return true;
+    }
+
+    return false;
 }
