@@ -25,6 +25,12 @@ function rules()
 }
 
 //=====================================================================================================================
+function makeTeamNames()
+{
+    location.href = "teamNames.html";
+}
+
+//=====================================================================================================================
 function calculateScores()
 {
     location.href = "calculateScores.html";
@@ -34,28 +40,28 @@ function calculateScores()
 function teams2()
 {
     localStorage.setItem('numTeams', "2");
-    calculateScores();
+    makeTeamNames();
 }
 
 //=====================================================================================================================
 function teams3()
 {
     localStorage.setItem('numTeams', "3");
-    calculateScores();
+    makeTeamNames();
 }
 
 //=====================================================================================================================
 function teams4()
 {
     localStorage.setItem('numTeams', "4");
-    calculateScores();
+    makeTeamNames();
 }
 
 //=====================================================================================================================
 function teams5()
 {
     localStorage.setItem('numTeams', "5");
-    calculateScores();
+    makeTeamNames();
 }
 
 //=====================================================================================================================
@@ -80,6 +86,9 @@ function getScores()
         round--;
         localStorage.setItem('round', round);
     }
+
+    var firstTeamName = localStorage.getItem("teamName1");
+    document.getElementById("calcScoresHeader").innerHTML = firstTeamName;
 
     firstRun = localStorage.getItem('firstRun');
     numTeams = localStorage.getItem('numTeams');
@@ -108,6 +117,33 @@ function getScores()
     }
 
     document.getElementById("inputHeader").innerHTML = ("Round " + round);
+}
+
+//=====================================================================================================================
+function inputTeamNames()
+{
+    var teams = parseInt(localStorage.getItem('numTeams'));
+
+    for (var i = 1; i <= teams; i++)
+    {
+        // Set visibility for team name inputs
+        var teamName = document.getElementById("teamContainer" + i);
+        teamName.hidden = false;
+    }
+}
+
+//=====================================================================================================================
+function submitTeamNames()
+{
+    var teams = parseInt(localStorage.getItem('numTeams'));
+
+    for (var i = 1; i <= teams; i++)
+    {
+        var teamName = document.getElementById("teamName" + i).value;
+        localStorage.setItem("teamName" + i, teamName);
+    }
+
+    calculateScores();
 }
 
 //=====================================================================================================================
@@ -143,7 +179,7 @@ function submit()
         totalPoints += parseInt(localStorage.getItem(lastTotal));
     }
 
-    var teamName = "Team " + (count + 1);
+    var teamName = localStorage.getItem("teamName" + (count + 1));
 
     localStorage.setItem(teamPointsName, teamPoints);
     localStorage.setItem(teamPointsTotalName, totalPoints);
@@ -181,7 +217,8 @@ function displayScores()
         var cell1 = row.insertCell(0);
         var cell2 = row.insertCell(1);
         var cell3 = row.insertCell(2);
-        cell1.innerHTML = ("Team " + i + ":");
+        var teamName = localStorage.getItem("teamName" + i);
+        cell1.innerHTML = (teamName + ":");
 
         var teamPointsName = ("teamPoints" + i) + (round - 1);
         var totalPointsName = ("totalPoints" + i) + (round - 1);

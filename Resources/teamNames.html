@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>Hand & Foot</title>
+		<meta charset="UTF-8">
+		<meta name="description" content="A program to help play Hand & Foot">
+		<meta name="keywords" content="Hand & Foot">
+		<meta name="author" content="Trevor Larson">
+		<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=no">
+		<link rel="icon" href="Hand&Foot.PNG">
+		<link rel="stylesheet" href="style.css">
+	</head>
+	<body onload="inputTeamNames()">
+        <div id="mainContainer">
+            <h1 id="teamNamesHeader" class="titleHeader">Team Names</h1>
+            <h2 id="inputHeader"></h2>
+
+			<div id="teamContainer1" hidden>
+				<div class="numInput">
+					<p>First team name:</p>
+				</div>
+				<div class="numInput">
+					<input type="text" id="teamName1" class="numInput" maxlength="15" value="Team 1">
+				</div>
+			</div>
+            <div id="teamContainer2" hidden>
+				<div class="numInput">
+					<p>Second team name:</p>
+				</div>
+				<div class="numInput">
+					<input type="text" id="teamName2" class="numInput" maxlength="15" value="Team 2">
+				</div>
+			</div>
+			<div id="teamContainer3" hidden>
+				<div class="numInput">
+					<p>Third team name:</p>
+				</div>
+				<div class="numInput">
+					<input type="text" id="teamName3" class="numInput" maxlength="15" value="Team 3">
+				</div>
+			</div>
+			<div id="teamContainer4" hidden>
+				<div class="numInput">
+					<p>Fourth team name:</p>
+				</div>
+				<div class="numInput">
+					<input type="text" id="teamName4" class="numInput" maxlength="15" value="Team 4">
+				</div>
+			</div>
+			<div id="teamContainer5" hidden>
+				<div class="numInput">
+					<p>Fifth team name:</p>
+				</div>
+				<div class="numInput">
+					<input type="text" id="teamName5" class="numInput" maxlength="15" value="Team 5">
+				</div>
+			</div>
+
+            <div class="teamButtonContainer">
+                <button id="submit" class="teamButton" onclick="submitTeamNames()">Submit</button>            
+            </div>
+        </div>
+		
+	  	<!-- The main file for the program -->
+	  	<script src="../JavaScript/main.js"></script>
+	</body>
+</html>
