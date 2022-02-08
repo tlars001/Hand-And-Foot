@@ -1,15 +1,14 @@
 const WINNING_POINTS = 300;
 
-var numTeams = 0;
 var firstRun = true;
+var numTeams = 0;
 var round = 0;
 var count = 0;
 
 //=====================================================================================================================
 function startGame()
 {
-    localStorage.clear();
-    localStorage.setItem("firstRun", "true");
+    localStorage.setItem('firstRun', "true");
     location.href = "./Resources/teams.html";
 }
 
@@ -34,28 +33,28 @@ function calculateScores()
 //=====================================================================================================================
 function teams2()
 {
-    localStorage.setItem("numTeams", "2");
+    localStorage.setItem('numTeams', "2");
     calculateScores();
 }
 
 //=====================================================================================================================
 function teams3()
 {
-    localStorage.setItem("numTeams", "3");
+    localStorage.setItem('numTeams', "3");
     calculateScores();
 }
 
 //=====================================================================================================================
 function teams4()
 {
-    localStorage.setItem("numTeams", "4");
+    localStorage.setItem('numTeams', "4");
     calculateScores();
 }
 
 //=====================================================================================================================
 function teams5()
 {
-    localStorage.setItem("numTeams", "5");
+    localStorage.setItem('numTeams', "5");
     calculateScores();
 }
 
@@ -77,34 +76,34 @@ function getScores()
 {
     if (window.performance && window.performance.navigation.type === window.performance.navigation.TYPE_BACK_FORWARD)
     {
-        round = localStorage.getItem("round");
+        round = localStorage.getItem('round');
         round--;
-        localStorage.setItem("round", round);
+        localStorage.setItem('round', round);
     }
 
-    firstRun = localStorage.getItem("firstRun");
-    numTeams = localStorage.getItem("numTeams");
+    firstRun = localStorage.getItem('firstRun');
+    numTeams = localStorage.getItem('numTeams');
     count = 1;
 
     if (firstRun === "true")
     {
         round = 1;
-        localStorage.setItem("firstRun", "false");
+        localStorage.setItem('firstRun', "false");
 
         for (var i = 1; i <= numTeams; i++)
         {
-            localStorage.setItem(("totalPoints" + i) + round, "0");
+            localStorage.setItem(('totalPoints' + i) + round, "0");
         }
 
     }
     else
     {
-        round = localStorage.getItem("round");
+        round = localStorage.getItem('round');
 
         if (round < 1)
         {
             round = 1;
-            localStorage.setItem("round", round);
+            localStorage.setItem('round', round);
         }
     }
 
@@ -160,7 +159,7 @@ function submit()
     else
     {
         round++;
-        localStorage.setItem("round", round);
+        localStorage.setItem('round', round);
         location.href = "scores.html";
     }
 }
@@ -168,8 +167,8 @@ function submit()
 //=====================================================================================================================
 function displayScores()
 {
-    numTeams = localStorage.getItem("numTeams");
-    round = localStorage.getItem("round");
+    numTeams = localStorage.getItem('numTeams');
+    round = localStorage.getItem('round');
     var roundName = "Round " + (round - 1) + " Score";
     document.getElementById("scoresHeader").innerHTML = roundName;
 
@@ -191,7 +190,7 @@ function displayScores()
         cell3.innerHTML = localStorage.getItem(totalPointsName);
     }
 
-    sortTable();
+    sortTable(table, 2);
 
     if (round > "3")
     {
@@ -205,16 +204,16 @@ function displayScores()
         }
         else
         {
+            setHighScore(table);
             document.getElementById("winningTeam").innerHTML = winner + " wins!";
         }   
     }
 }
 
 //=====================================================================================================================
-function sortTable()
+function sortTable(table, position)
 {
-    var table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("scoreTable");
+    var rows, switching, i, x, y, shouldSwitch;
     switching = true;
 
     // Make a loop that will continue until no switching has been done:
@@ -231,8 +230,8 @@ function sortTable()
         shouldSwitch = false;
 
         // Get the two elements you want to compare, one from current row and one from the next:
-        x = rows[i].getElementsByTagName("TD")[2];
-        y = rows[i + 1].getElementsByTagName("TD")[2];
+        x = rows[i].getElementsByTagName("TD")[position];
+        y = rows[i + 1].getElementsByTagName("TD")[position];
 
         //check if the two rows should switch place:
         if (parseInt(x.innerHTML) < parseInt(y.innerHTML))
@@ -255,7 +254,7 @@ function sortTable()
 //=====================================================================================================================
 function checkRound()
 {
-    round = localStorage.getItem("round");
+    round = localStorage.getItem('round');
 
     // Check if all three rounds have been completed
     if (round > "3")
@@ -280,4 +279,60 @@ function checkForTie(table)
     }
 
     return false;
+}
+
+//=====================================================================================================================
+function setHighScore(table)
+{
+    var leadTeam = table.rows[1].cells[0].innerHTML;
+    var leadTeamScore = table.rows[1].cells[2].innerHTML;
+    
+    var tempScores = JSON.parse(localStorage.getItem('teamHighScores'));
+
+    if (tempScores == null)
+    {
+        tempScores = [];
+    }
+
+    tempScores.push([leadTeam, leadTeamScore]);
+    localStorage.setItem('teamHighScores', JSON.stringify(tempScores));
+}
+
+//=====================================================================================================================
+function displayHighScores()
+{
+    var highScoreTable = document.getElementById("highScoreTable");
+
+    const tempScores = JSON.parse(localStorage.getItem('teamHighScores'));
+
+    if (tempScores == null)
+    {
+        return;
+    }
+
+    for (var i = 0; i < tempScores.length; i++)
+    {        
+        var leadTeam = tempScores[i][0];
+        var leadTeamScore = tempScores[i][1];
+        var row = highScoreTable.insertRow(i + 1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+    
+        cell1.innerHTML = leadTeam;
+        cell2.innerHTML = leadTeamScore;
+    }
+
+    sortTable(highScoreTable, 1);
+}
+
+//=====================================================================================================================
+function clearData()
+{
+    localStorage.clear();
+    firstRun = true;
+    numTeams = 0;
+    round = 0;
+    count = 0;
+
+    location.reload();
 }

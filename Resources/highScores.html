@@ -10,15 +10,21 @@
 		<link rel="icon" href="Hand&Foot.PNG">
 		<link rel="stylesheet" href="style.css">
 	</head>
-	<body>
+	<body onload="displayHighScores()"></body>
 		<h1 id="highScoresHeader" class="titleHeader">High Scores</h1>
 		
-		<table id="scoreTable">
+		<table id="highScoreTable">
 			<tr>
 				<th>Team</th>
 				<th>Score</th>
 			</tr>
 		</table>
+
+		<div id="mainContainer">
+			<div class="mainButtonsContainer">
+				<button id="clearButton" class="mainButton" onclick="clearData()">Reset Data</button>            
+			</div>
+		</div>
 		
 	  	<!-- The main file for the program -->
 	  	<script src="../JavaScript/main.js"></script>
